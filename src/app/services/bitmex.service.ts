@@ -34,7 +34,7 @@ export class BitmexService {
   onNewMessage() {
     return Observable.create(observer => {
       this.socket.on('dataupdate', data => {
-        console.log(data);
+        // console.log(data);
         observer.next(data);
       });
     });
