@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Commands } from '../models/bitmex.model';
+import{BitmexService} from '../services/bitmex.service'
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,13 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
-
+  constructor(private bitmex: BitmexService) {
+    this.bitmex.sendMessage(Commands.subscribe, ['quote:XBTUSD'])
+  }
+  ngOnInit() {
+    console.log('ready');
+    this.bitmex.onNewMessage().subscribe(msg => {
+      console.log('got a msg: ' + msg);
+    });
+  }
 }
