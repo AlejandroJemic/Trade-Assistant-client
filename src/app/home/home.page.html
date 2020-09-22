@@ -17,13 +17,13 @@
   <div class="container" *ngIf="this.bidPrice > 0">
     <ion-grid>
       <ion-row>
-        <ion-col size="4" class="p max">${{this.max}} </ion-col>
-        <ion-col size="3" class="p max">+${{this.maxDelta}} </ion-col>
-        <ion-col size="3" class="p max">+{{this.maxPercent}}%</ion-col>
+        <ion-col size="6" class="p max">$ {{this.max}} </ion-col>
+        <ion-col size="3" class="p max">- $ {{this.maxDelta}} </ion-col>
+        <ion-col size="3" class="p max">- {{this.maxPercent}} %</ion-col>
       </ion-row>
       
       <ion-row>
-        <ion-col size="4">
+        <ion-col size="6">
           <strong>${{this.bidPrice}}</strong>
         </ion-col>
         <ion-col size="3">
@@ -35,11 +35,16 @@
       </ion-row>
 
       <ion-row>
-        <ion-col size="4" class="p min">${{this.min}} </ion-col>
-        <ion-col size="3" class="p min">-${{this.minDelta}} </ion-col>
-        <ion-col size="3" class="p min">-{{this.minPercent}}%</ion-col>
+        <ion-col size="6" class="p min">$ {{this.min}} </ion-col>
+        <ion-col size="3" class="p min">+ $ {{this.minDelta}} </ion-col>
+        <ion-col size="3" class="p min">+ {{this.minPercent}} %</ion-col>
       </ion-row>
-
+      <ion-row>
+        <ion-col size="8" class="p" style="text-align: center;">
+          <ion-button class="reset ion-center" (click)="onReset()">Reset</ion-button>
+        </ion-col>
+        <ion-col size="4" class="p time">{{this.runingTime}}</ion-col>
+      </ion-row>
     </ion-grid>
     
   </div>
