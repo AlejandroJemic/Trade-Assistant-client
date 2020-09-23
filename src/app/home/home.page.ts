@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Commands } from '../models/bitmex.model';
+import { Component, HostListener } from '@angular/core';
+import { Commands , BitemxState} from '../models/bitmex.model';
 import{BitmexService} from '../services/bitmex.service';
 import * as moment from 'moment';
 
@@ -29,6 +29,24 @@ export class HomePage {
 
   ngOnInit() {
     console.log('ready');
+
+    var savedState: BitemxState = this.bitmex.readFromStorage(BitemxState.name, typeof(BitemxState));
+
+    if (savedState !== null) {
+      console.log('readin saved data');
+        this.startTime = savedState.startTime;
+        this.bidPrice  = savedState. bidPrice;
+        this.delay  = savedState.delay;
+        this.max  = savedState.max;
+        this.maxPercent = savedState.maxPercent;
+        this.maxDelta = savedState.maxDelta;
+        this.min = savedState. min;
+        this.minPercent = savedState.minPercent ;
+        this.minDelta = savedState. minDelta ;
+        this.totalDelta = savedState.totalDelta ;
+        this.totalPercent = savedState.totalPercent ;
+    }
+
     this.bitmex.onNewMessage().subscribe(data => {
       //console.log('got timestamp: ' + data.timestamp + ', bitPrice: ' + data.bidPrice);
       
@@ -57,6 +75,26 @@ export class HomePage {
     });
   }
 
+  @HostListener('unloaded')
+  ngOnDestroy(){
+    
+    if(this.bidPrice > 0) {
+      console.log('saving state to local storage')
+      this.bitmex.saveToStoraje(BitemxState.name, new BitemxState(
+        this. startTime,
+        this.bidPrice,
+        this.delay,
+        this.max,
+        this.maxPercent,
+        this.maxDelta,
+        this.min,
+        this.minPercent ,
+        this.minDelta ,
+        this.totalDelta ,
+        this.totalPercent
+      ));
+    }
+  }
 
   elapsedTime (dif){
     var du = moment.duration(dif, "milliseconds");
@@ -78,6 +116,11 @@ export class HomePage {
     this.totalDelta +0;
     this.totalPercent = 0;
     this.runingTime = this.elapsedTime(new Date().getTime() - this.startTime.getTime());
+
+    var done = this.bitmex.removeFromStorage(BitemxState.name)
+    if(done) {
+      console.log('removing state from local storage');
+    }
   }
 
 }
