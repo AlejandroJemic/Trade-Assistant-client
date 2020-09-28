@@ -21,6 +21,8 @@ export class HomePage {
   minDelta: number = 0;
   totalDelta: number = 0;
   totalPercent: number = 0;
+  mensaje: string = '';
+  showMesage: boolean;
   constructor(private bitmex: BitmexService) {
    // this.bitmex.sendMessage(Commands.subscribe, ['quote:XBTUSD'])
    this.startTime = new Date();
@@ -29,12 +31,13 @@ export class HomePage {
 
   ngOnInit() {
     console.log('ready');
-
-    var savedState: BitemxState = this.bitmex.readFromStorage(BitemxState.name, typeof(BitemxState));
+    this.setMesage();
+    
+    var savedState: BitemxState = this.bitmex.readFromStorage(BitemxState.name);
 
     if (savedState !== null) {
-      console.log('readin saved data');
-        this.startTime = savedState.startTime;
+      // console.log('reading saved data from local storage');
+        this.startTime = new Date(savedState.startTime);
         this.bidPrice  = savedState. bidPrice;
         this.delay  = savedState.delay;
         this.max  = savedState.max;
@@ -45,11 +48,12 @@ export class HomePage {
         this.minDelta = savedState. minDelta ;
         this.totalDelta = savedState.totalDelta ;
         this.totalPercent = savedState.totalPercent ;
+        this.runingTime = this.elapsedTime(new Date().getTime() - this.startTime.getTime());
+
     }
 
     this.bitmex.onNewMessage().subscribe(data => {
       //console.log('got timestamp: ' + data.timestamp + ', bitPrice: ' + data.bidPrice);
-      
       var localTime = new Date();
       var LocalTimeStamp = new Date( data.timestamp);
       var Delay =(localTime.getTime() - LocalTimeStamp.getTime()) /1000;
@@ -72,28 +76,40 @@ export class HomePage {
       this.totalDelta + this.minDelta + this.maxDelta;
       this.totalPercent = this.maxPercent + this.minPercent;
       this.runingTime = this.elapsedTime(localTime.getTime() - this.startTime.getTime());
+      this.saveBitmexState();
     });
+  }
+
+  private setMesage() {
+    this.mensaje = "welcome !";
+    this.showMesage = this.mensaje.length > 0;
+    setTimeout(() => {
+      this.showMesage = false;
+    }, 10000);
   }
 
   @HostListener('unloaded')
   ngOnDestroy(){
-    
     if(this.bidPrice > 0) {
-      console.log('saving state to local storage')
-      this.bitmex.saveToStoraje(BitemxState.name, new BitemxState(
-        this. startTime,
-        this.bidPrice,
-        this.delay,
-        this.max,
-        this.maxPercent,
-        this.maxDelta,
-        this.min,
-        this.minPercent ,
-        this.minDelta ,
-        this.totalDelta ,
-        this.totalPercent
-      ));
+      this.saveBitmexState();
     }
+  }
+
+  private saveBitmexState() {
+    // console.log('saving state to local storage')
+    this.bitmex.saveToStoraje(BitemxState.name, new BitemxState(
+      this.startTime,
+      this.bidPrice,
+      this.delay,
+      this.max,
+      this.maxPercent,
+      this.maxDelta,
+      this.min,
+      this.minPercent,
+      this.minDelta,
+      this.totalDelta,
+      this.totalPercent
+    ));
   }
 
   elapsedTime (dif){
@@ -106,6 +122,7 @@ export class HomePage {
   }
 
   onReset(){
+    this.mensaje = "";
     this.startTime = new Date();
     this.max =this.bidPrice;
     this.min =this.bidPrice;

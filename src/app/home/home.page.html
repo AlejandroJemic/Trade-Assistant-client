@@ -15,11 +15,14 @@
   </div>
   
   <div class="container" *ngIf="this.bidPrice > 0">
+    <div class="texto" *ngIf="showMesage" [ngClass]="{'no-display' : mensaje.length == 0, 'display': mensaje.length > 0 }">
+      <ion-label >{{this.mensaje}}</ion-label>
+    </div>
     <ion-grid>
       <ion-row>
         <ion-col size="6" class="p max">$ {{this.max}} </ion-col>
-        <ion-col size="3" class="p max">- $ {{this.maxDelta}} </ion-col>
-        <ion-col size="3" class="p max">- {{this.maxPercent}} %</ion-col>
+        <ion-col size="3" class="p max">+ $ {{this.maxDelta}} </ion-col>
+        <ion-col size="3" class="p max">+ {{this.maxPercent}} %</ion-col>
       </ion-row>
       
       <ion-row>
@@ -36,8 +39,8 @@
 
       <ion-row>
         <ion-col size="6" class="p min">$ {{this.min}} </ion-col>
-        <ion-col size="3" class="p min">+ $ {{this.minDelta}} </ion-col>
-        <ion-col size="3" class="p min">+ {{this.minPercent}} %</ion-col>
+        <ion-col size="3" class="p min">- $ {{this.minDelta}} </ion-col>
+        <ion-col size="3" class="p min">- {{this.minPercent}} %</ion-col>
       </ion-row>
       <ion-row>
         <ion-col size="8" class="p" style="text-align: center;">
@@ -46,6 +49,6 @@
         <ion-col size="4" class="p time">{{this.runingTime}}</ion-col>
       </ion-row>
     </ion-grid>
-    
+ 
   </div>
 </ion-content>
