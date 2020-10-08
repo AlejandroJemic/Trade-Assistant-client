@@ -1,12 +1,16 @@
 .title{
   font-size: 1.4em;
   line-height: 22px;
-  padding: 0.3em;
+  //padding: 0.3em;
   height: 2.7em;
-  color: rgba(0, 106, 255, 0.972);
-  background-color: #1D1A63;
   display: block;
   .delay{font-size: 0.8em; float: right;}
+}
+
+.toolbar-background{
+  --color: rgba(0, 106, 255, 0.972);
+  --ion-toolbar-background: #1D1A63;
+  --ion-background-color: #1D1A63;
 }
 
 .container {
