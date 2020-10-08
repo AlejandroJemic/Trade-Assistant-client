@@ -31,53 +31,58 @@ export class HomePage {
 
   ngOnInit() {
     console.log('ready');
-    this.setMesage();
-    
-    var savedState: BitemxState = this.bitmex.readFromStorage(BitemxState.name);
+    this.setMesage();  
+    this.readStateFromSorege();
+    this.setStateOnQuoteUpdated();
+  }
 
-    if (savedState !== null) {
-      // console.log('reading saved data from local storage');
-        this.startTime = new Date(savedState.startTime);
-        this.bidPrice  = savedState. bidPrice;
-        this.delay  = savedState.delay;
-        this.max  = savedState.max;
-        this.maxPercent = savedState.maxPercent;
-        this.maxDelta = savedState.maxDelta;
-        this.min = savedState. min;
-        this.minPercent = savedState.minPercent ;
-        this.minDelta = savedState. minDelta ;
-        this.totalDelta = savedState.totalDelta ;
-        this.totalPercent = savedState.totalPercent ;
-        this.runingTime = this.elapsedTime(new Date().getTime() - this.startTime.getTime());
-
-    }
-
-    this.bitmex.onNewMessage().subscribe(data => {
+  private setStateOnQuoteUpdated() {
+    this.bitmex.onQuoteUpdated().subscribe(data => {
       //console.log('got timestamp: ' + data.timestamp + ', bitPrice: ' + data.bidPrice);
       var localTime = new Date();
-      var LocalTimeStamp = new Date( data.timestamp);
-      var Delay =(localTime.getTime() - LocalTimeStamp.getTime()) /1000;
+      var LocalTimeStamp = new Date(data.timestamp);
+      var Delay = (localTime.getTime() - LocalTimeStamp.getTime()) / 1000;
 
       // console.log('LocalTimeStamp: ' + LocalTimeStamp);
       // console.log('localtime:      ' + localTime);
       // console.log('delay: ' + Delay);
       // console.log('bidprice: '+  data.bidPrice);
+      this.delay = Math.round(Delay).toString() + 's';
+      this.bidPrice = +data.bidPrice;
 
-      this.delay = Math.round(Delay).toString() +'s'; 
-      this.bidPrice =  + data.bidPrice;
-
-      if(this.bidPrice > this.max) this.max = this.bidPrice;
-      if(this.bidPrice < this.min) this.min = this.bidPrice;
+      if (this.bidPrice > this.max)
+        this.max = this.bidPrice;
+      if (this.bidPrice < this.min)
+        this.min = this.bidPrice;
 
       this.maxDelta = this.max - this.bidPrice;
       this.minDelta = this.bidPrice - this.min;
-      this.minPercent =  +((this.minDelta * 100) / this.bidPrice).toFixed(2);
+      this.minPercent = +((this.minDelta * 100) / this.bidPrice).toFixed(2);
       this.maxPercent = +((this.maxDelta * 100) / this.bidPrice).toFixed(2);
       this.totalDelta + this.minDelta + this.maxDelta;
       this.totalPercent = this.maxPercent + this.minPercent;
       this.runingTime = this.elapsedTime(localTime.getTime() - this.startTime.getTime());
       this.saveBitmexState();
     });
+  }
+
+  private readStateFromSorege() {
+    var savedState: BitemxState = this.bitmex.readFromStorage(BitemxState.name);
+    if (savedState !== null) {
+      // console.log('reading saved data from local storage');
+      this.startTime = new Date(savedState.startTime);
+      this.bidPrice = savedState.bidPrice;
+      this.delay = savedState.delay;
+      this.max = savedState.max;
+      this.maxPercent = savedState.maxPercent;
+      this.maxDelta = savedState.maxDelta;
+      this.min = savedState.min;
+      this.minPercent = savedState.minPercent;
+      this.minDelta = savedState.minDelta;
+      this.totalDelta = savedState.totalDelta;
+      this.totalPercent = savedState.totalPercent;
+      this.runingTime = this.elapsedTime(new Date().getTime() - this.startTime.getTime());
+    }
   }
 
   private setMesage() {

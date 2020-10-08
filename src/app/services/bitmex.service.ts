@@ -38,9 +38,27 @@ export class BitmexService {
    * @returns
    * @memberof BitmexService
    */
-  onNewMessage() {
+  onQuoteUpdated() {
     return Observable.create(observer => {
-      this.socket.on('dataupdate', data => {
+      this.socket.on('quoteupdate', data => {
+        // console.log(data);
+        observer.next(data);
+      });
+    });
+  }
+
+  onOrdersUpdated() {
+    return Observable.create(observer => {
+      this.socket.on('odersupdate', data => {
+        // console.log(data);
+        observer.next(data);
+      });
+    });
+  }
+
+  onPositionsUpdated() {
+    return Observable.create(observer => {
+      this.socket.on('positionsupdate', data => {
         // console.log(data);
         observer.next(data);
       });

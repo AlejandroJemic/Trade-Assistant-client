@@ -12,6 +12,7 @@ import{BitmexService} from './services/bitmex.service'
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+  navigate : any;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -26,5 +27,28 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+
+  sideMenu()
+  {
+    this.navigate =
+    [
+      {
+        title : "B",
+        url   : "/home",
+        icon  : "home"
+      },
+      {
+        title : "O",
+        url   : "/orders",
+        icon  : "orders"
+      },
+      {
+        title : "P",
+        url   : "/pos",
+        icon  : "pos"
+      }
+    ]
   }
 }
