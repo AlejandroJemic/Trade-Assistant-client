@@ -8,6 +8,7 @@ import * as moment from 'moment';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
+
 export class HomePage {
   startTime: Date ;
   runingTime: string;
@@ -23,26 +24,27 @@ export class HomePage {
   totalPercent: number = 0;
   mensaje: string = '';
   showMesage: boolean;
-  constructor(private bitmex: BitmexService) {
+
+  constructor(
+    private bitmexServ: BitmexService)
+    {
    // this.bitmex.sendMessage(Commands.subscribe, ['quote:XBTUSD'])
    this.startTime = new Date();
-   
   }
 
   ngOnInit() {
     console.log('ready');
-    this.setMesage();  
+    this.setMesage("welcome !");  
     this.readStateFromSorege();
     this.setStateOnQuoteUpdated();
   }
 
   private setStateOnQuoteUpdated() {
-    this.bitmex.onQuoteUpdated().subscribe(data => {
+    this.bitmexServ.onQuoteUpdated().subscribe(data => {
       //console.log('got timestamp: ' + data.timestamp + ', bitPrice: ' + data.bidPrice);
       var localTime = new Date();
       var LocalTimeStamp = new Date(data.timestamp);
       var Delay = (localTime.getTime() - LocalTimeStamp.getTime()) / 1000;
-
       // console.log('LocalTimeStamp: ' + LocalTimeStamp);
       // console.log('localtime:      ' + localTime);
       // console.log('delay: ' + Delay);
@@ -67,7 +69,7 @@ export class HomePage {
   }
 
   private readStateFromSorege() {
-    var savedState: BitemxState = this.bitmex.readFromStorage(BitemxState.name);
+    var savedState: BitemxState = this.bitmexServ.readFromStorage(BitemxState.name);
     if (savedState !== null) {
       // console.log('reading saved data from local storage');
       this.startTime = new Date(savedState.startTime);
@@ -85,10 +87,11 @@ export class HomePage {
     }
   }
 
-  private setMesage() {
-    this.mensaje = "welcome !";
+  private setMesage(msg) {
+     this.mensaje = msg;
     this.showMesage = this.mensaje.length > 0;
     setTimeout(() => {
+      this.mensaje >= "";
       this.showMesage = false;
     }, 10000);
   }
@@ -102,7 +105,7 @@ export class HomePage {
 
   private saveBitmexState() {
     // console.log('saving state to local storage')
-    this.bitmex.saveToStoraje(BitemxState.name, new BitemxState(
+    this.bitmexServ.saveToStoraje(BitemxState.name, new BitemxState(
       this.startTime,
       this.bidPrice,
       this.delay,
@@ -139,7 +142,7 @@ export class HomePage {
     this.totalPercent = 0;
     this.runingTime = this.elapsedTime(new Date().getTime() - this.startTime.getTime());
 
-    var done = this.bitmex.removeFromStorage(BitemxState.name)
+    var done = this.bitmexServ.removeFromStorage(BitemxState.name)
     if(done) {
       console.log('removing state from local storage');
     }

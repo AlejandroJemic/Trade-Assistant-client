@@ -19,6 +19,7 @@ export class AppComponent {
     private statusBar: StatusBar,
     bitmex: BitmexService
   ) {
+    this.sideMenu();
     this.initializeApp();
   }
 
@@ -29,7 +30,6 @@ export class AppComponent {
     });
   }
 
-
   sideMenu()
   {
     this.navigate =
@@ -37,18 +37,22 @@ export class AppComponent {
       {
         title : "B",
         url   : "/home",
-        icon  : "home"
       },
       {
         title : "O",
         url   : "/orders",
-        icon  : "orders"
       },
       {
         title : "P",
         url   : "/pos",
-        icon  : "pos"
-      }
+      },
+      {
+        title : "M",
+        url   : "/mesages",
+      },      {
+        title : "W",
+        url   : "/walet",
+      },
     ]
   }
 }

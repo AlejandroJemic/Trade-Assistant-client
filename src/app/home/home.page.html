@@ -21,7 +21,7 @@
   </div>
   
   <div class="container" *ngIf="this.bidPrice > 0">
-    <div class="texto" *ngIf="showMesage" [ngClass]="{'no-display' : mensaje.length == 0, 'display': mensaje.length > 0 }">
+    <div class="texto" *ngIf="showMesage" [ngClass]="{'no-display' : showMesage == false, 'display': showMesage == true }">
       <ion-label >{{this.mensaje}}</ion-label>
     </div>
     <ion-grid>
