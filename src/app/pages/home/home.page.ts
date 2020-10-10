@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
-import { Commands , BitemxState} from '../models/bitmex.model';
-import{BitmexService} from '../services/bitmex.service';
+import { Commands , BitemxState} from '../../models/bitmex.model';
+import{BitmexService} from '../../services/bitmex.service';
 import * as moment from 'moment';
 
 @Component({
