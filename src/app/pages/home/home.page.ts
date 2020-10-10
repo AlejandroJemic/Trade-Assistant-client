@@ -35,7 +35,7 @@ export class HomePage {
   ngOnInit() {
     console.log('ready');
     this.setMesage("welcome !");  
-    this.readStateFromSorege();
+    this.readStateFromStorage();
     this.setStateOnQuoteUpdated();
   }
 
@@ -68,7 +68,7 @@ export class HomePage {
     });
   }
 
-  private readStateFromSorege() {
+  private readStateFromStorage() {
     var savedState: BitemxState = this.bitmexServ.readFromStorage(BitemxState.name);
     if (savedState !== null) {
       // console.log('reading saved data from local storage');
