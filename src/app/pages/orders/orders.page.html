@@ -14,6 +14,69 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   <div class="container">
-    
+    <ion-grid>
+      <ion-row class="ion-justify-content-center" width="100%" center no-padding>
+        <ion-col *ngIf="Orders.length === 0" class="ion-align-items-center">
+          <ion-label >No any order is registered</ion-label>
+        </ion-col>
+        <ion-col *ngFor="let order of Orders" sizeXl="4" sizeLg="4" sizeMd="6" sizeSm="6" sizeXs="12" no-padding>
+          <ion-card style=" min-width: 305px;"> 
+            <ion-card-header style="text-align: center; align-self: center; vertical-align: middle;">
+            <ion-card-title >
+              <ion-label class="ion-float-left">{{order.ordType}}</ion-label>
+              <ion-label class="ion-float-right" *ngIf="order.ordStatus !== 'Canceled'">{{order.ordStatus}}</ion-label>
+            </ion-card-title>
+            </ion-card-header>
+            <ion-card-content style="text-align: center; align-self: center; vertical-align: middle;">
+              <ion-label>{{order.side}} {{order.orderQty}} {{order.currency}} at {{order.avgPx}}{{order.avgPx}}{{order.stopPx}}</ion-label>
+            </ion-card-content>
+            <ion-footer>
+              <ion-row *ngIf="order.ordStatus !== 'Canceled'">
+                <ion-col >
+                  <button class="ion-float-right">
+                    <ion-icon name="remove-circle" color="secondary"></ion-icon>
+                  </button>
+                </ion-col>
+                <ion-col center text-center>
+                  <ion-input type="number"></ion-input>
+                </ion-col>
+                <ion-col center text-center>
+                  <button>
+                    <ion-icon name="add-circle" color="secondary"></ion-icon>
+                  </button>
+                </ion-col>
+
+                <ion-col center text-center>
+                  <button>
+                    <ion-icon name="checkmark-circle" color="success"></ion-icon>
+                  </button>
+                </ion-col>
+                <ion-col center text-center>
+                  <button>
+                    <ion-icon name="close-circle" color="danger"></ion-icon>
+                  </button>
+                </ion-col>
+              </ion-row>
+              <ion-row *ngIf="order.ordStatus === 'Canceled'">
+                <ion-col >
+                  <button class="ion-float-left">
+                    <ion-icon name="arrow-forward-circle" color="success"></ion-icon>
+                  </button>
+                </ion-col>
+                <ion-col style="text-align: center; align-self: center;">
+                   <ion-label>{{order.ordStatus}}</ion-label>
+                </ion-col>
+                <ion-col >
+                  <button class="ion-float-right">
+                    <ion-icon name="trash" color="danger" ></ion-icon>
+                  </button>
+                </ion-col>
+              </ion-row>
+            </ion-footer>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
   </div>
 </ion-content>

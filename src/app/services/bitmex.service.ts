@@ -1,6 +1,6 @@
 import { Injectable, Type } from '@angular/core';
 import * as io from 'socket.io-client';
-import { Commands, BitemxState} from '../models/bitmex.model'
+import { Commands, BitemxState, BitmexOrder} from '../models/bitmex.model'
 import { Observable } from 'rxjs';
 import { plainToClass } from "class-transformer"; 
 /**
@@ -15,12 +15,27 @@ import { plainToClass } from "class-transformer";
 })
 export class BitmexService {
   private url: string = 'ws://localhost:4000/';
-  private socket: any; 
-
+  private socket: any;
+  
+  public Orders: BitmexOrder[] = [];
+  public OrdersUpdated: boolean = false;
   constructor() { 
-    this.socket = io(this.url); // ,{transports: ['websocket']});
+   try {
+      this.socket = io(this.url); // ,{transports: ['websocket']});
+   } catch (err) {
+     
+   }
   }
 
+  public getOrders(){
+    return this.Orders;
+  }
+
+  public setOrders(Orders: BitmexOrder[]){
+    this.Orders = Orders;
+    this.OrdersUpdated = true;
+  }
+  
   /**
    * enviar mensajes al servidor ws
    * @param {string} command accion
@@ -48,12 +63,16 @@ export class BitmexService {
   }
 
   onOrdersUpdated() {
-    return Observable.create(observer => {
-      this.socket.on('odersupdate', data => {
-        // console.log(data);
-        observer.next(data);
+   try {
+      return Observable.create(observer => {
+        this.socket.on('odersupdate', data => {
+          console.log('resived orders update');
+          observer.next(data);
+        });
       });
-    });
+   } catch (err) {
+     
+   }
   }
 
   onPositionsUpdated() {

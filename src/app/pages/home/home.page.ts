@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { Commands , BitemxState} from '../../models/bitmex.model';
 import{BitmexService} from '../../services/bitmex.service';
 import * as moment from 'moment';
+import{utils} from '../../services/utils';
 
 @Component({
   selector: 'app-home',
@@ -63,7 +64,7 @@ export class HomePage {
       this.maxPercent = +((this.maxDelta * 100) / this.bidPrice).toFixed(2);
       this.totalDelta + this.minDelta + this.maxDelta;
       this.totalPercent = this.maxPercent + this.minPercent;
-      this.runingTime = this.elapsedTime(localTime.getTime() - this.startTime.getTime());
+      this.runingTime = utils.elapsedTime(localTime, this.startTime);
       this.saveBitmexState();
     });
   }
@@ -83,7 +84,7 @@ export class HomePage {
       this.minDelta = savedState.minDelta;
       this.totalDelta = savedState.totalDelta;
       this.totalPercent = savedState.totalPercent;
-      this.runingTime = this.elapsedTime(new Date().getTime() - this.startTime.getTime());
+      this.runingTime = utils.elapsedTime(new Date(), this.startTime);
     }
   }
 
@@ -120,15 +121,6 @@ export class HomePage {
     ));
   }
 
-  elapsedTime (dif){
-    var du = moment.duration(dif, "milliseconds");
-    var d =  Math.round(du.days() +( du.months() * 30) + (du.years() *365 )).toString(); 
-    var h =  String("000" + Math.round(du.hours()).toString()).slice(-2);
-    var m =  String("000" + Math.round(du.minutes()).toString()).slice(-2);
-    var s =  String("000" + Math.round(du.seconds()).toString()).slice(-2);
-    return d + 'd ' + h + ':' + m + ':' + s
-  }
-
   onReset(){
     this.mensaje = "";
     this.startTime = new Date();
@@ -140,7 +132,7 @@ export class HomePage {
     this.maxPercent = +(0).toFixed(2);
     this.totalDelta +0;
     this.totalPercent = 0;
-    this.runingTime = this.elapsedTime(new Date().getTime() - this.startTime.getTime());
+    this.runingTime = utils.elapsedTime(new Date(), this.startTime);
 
     var done = this.bitmexServ.removeFromStorage(BitemxState.name)
     if(done) {

@@ -52,6 +52,8 @@ export class BitmexOrder{
       stopPx : number;  // 8500
       price : number;  // 10652.5 , null
       avgPx : number;  // 10653
+      currency: string;
+      timestamp: Date;
 
       constructor(orderID : string,
             ordType : string,
@@ -62,7 +64,9 @@ export class BitmexOrder{
             side : string,
             stopPx : number,
             price : number,
-            avgPx : number
+            avgPx : number,
+            currency: string,
+            timestamp: Date
             ){
                   this.orderID = orderID; 
                   this.ordType = ordType; 
@@ -74,6 +78,8 @@ export class BitmexOrder{
                   this.stopPx = stopPx; 
                   this.price = price; 
                   this.avgPx = avgPx; 
+                  this.currency = currency;
+                  this.timestamp = timestamp;
       }
 
       getName() {
