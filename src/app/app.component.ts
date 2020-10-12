@@ -5,7 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import{BitmexService} from './services/bitmex.service'
-import {  BitmexOrder,orderTypes, orderSides,orderStatuses, symbols } from './models/bitmex.model';
+import { BitmexOrder } from './models/bitmex.model';
+import { utils } from './services/utils';
 
 
 @Component({
@@ -41,7 +42,7 @@ export class AppComponent {
     this.navigate =
     [
       {
-        title : "B",
+        title : "H",
         url   : "/home",
       },
       {
@@ -109,7 +110,8 @@ export class AppComponent {
               dataOrder.price,
               dataOrder.avgPx,
               dataOrder.currency,
-              dataOrder.timestamp
+              dataOrder.timestamp,
+              utils.elapsedTime(new Date(), new Date(dataOrder.timestamp))
             ));
           }
         });

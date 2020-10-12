@@ -62,8 +62,8 @@ export class HomePage {
       this.minDelta = this.bidPrice - this.min;
       this.minPercent = +((this.minDelta * 100) / this.bidPrice).toFixed(2);
       this.maxPercent = +((this.maxDelta * 100) / this.bidPrice).toFixed(2);
-      this.totalDelta + this.minDelta + this.maxDelta;
-      this.totalPercent = this.maxPercent + this.minPercent;
+      this.totalDelta = this.minDelta + this.maxDelta;
+      this.totalPercent = +(this.maxPercent + this.minPercent).toFixed(2);
       this.runingTime = utils.elapsedTime(localTime, this.startTime);
       this.saveBitmexState();
     });
