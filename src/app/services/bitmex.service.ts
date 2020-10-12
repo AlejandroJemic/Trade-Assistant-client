@@ -3,6 +3,7 @@ import * as io from 'socket.io-client';
 import { Commands, BitemxState, BitmexOrder} from '../models/bitmex.model'
 import { Observable } from 'rxjs';
 import { plainToClass } from "class-transformer"; 
+import { environment } from 'src/environments/environment';
 /**
  *
  *clase para conectar con la api de bitmex via web socket 
@@ -14,7 +15,7 @@ import { plainToClass } from "class-transformer";
   providedIn: 'root'
 })
 export class BitmexService {
-  private url: string = 'ws://localhost:4000/';
+  private url: string = environment.wsurl;
   private socket: any;
   
   public Orders: BitmexOrder[] = [];
@@ -28,12 +29,26 @@ export class BitmexService {
   }
 
   public getOrders(){
+    var Orders= this.readFromStorage(BitmexOrder.name);
+    this.Orders = Orders;
+    return this.Orders;
+  }
+  public getOrdersSorted(){
+    var Orders= this.readFromStorage(BitmexOrder.name);
+    this.Orders = Orders.sort((a, b) => (new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()   ? 1 : -1));;
     return this.Orders;
   }
 
   public setOrders(Orders: BitmexOrder[]){
     this.Orders = Orders;
-    this.OrdersUpdated = true;
+    this.saveToStoraje(BitmexOrder.name, this.Orders);
+    this.OrdersUpdated = true; 
+  }
+
+  public deleteOrder(orderID: string) { 
+  return fetch(environment.deleteOrderUrl +  orderID)
+        .then(res => res.json())
+        .then(data => {return data});
   }
   
   /**

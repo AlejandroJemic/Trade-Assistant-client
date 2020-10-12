@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  wsurl: 'ws://localhost:4000/',
+  deleteOrderUrl: 'http://localhost:3000/deleteOrder/'
 };
 
 /*

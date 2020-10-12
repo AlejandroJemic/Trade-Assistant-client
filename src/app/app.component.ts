@@ -127,12 +127,11 @@ export class AppComponent {
   }
 
   private saveOrders(){
-    this.bitmexServ.saveToStoraje(BitmexOrder.name, this.Orders);
     this.bitmexServ.setOrders(this.Orders);
   }
 
   private readOrdersFromStorage(){
-    var savedOrders :BitmexOrder[] = this.bitmexServ.readFromStorage(BitmexOrder.name);
+    var savedOrders :BitmexOrder[] = this.bitmexServ.getOrders();
     if(savedOrders)
     this.Orders = savedOrders;
   }

@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BitmexService } from './services/bitmex.service';
+import { AppService } from './services/app.service';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { BitmexService } from './services/bitmex.service';
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
     BitmexService,
+    AppService,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

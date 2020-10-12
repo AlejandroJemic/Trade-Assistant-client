@@ -3,6 +3,7 @@ import { Commands , BitemxState} from '../../models/bitmex.model';
 import{BitmexService} from '../../services/bitmex.service';
 import * as moment from 'moment';
 import{utils} from '../../services/utils';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,8 @@ export class HomePage {
   showMesage: boolean;
 
   constructor(
-    private bitmexServ: BitmexService)
+    private bitmexServ: BitmexService,
+    private appService: AppService)
     {
    // this.bitmex.sendMessage(Commands.subscribe, ['quote:XBTUSD'])
    this.startTime = new Date();
@@ -35,7 +37,10 @@ export class HomePage {
 
   ngOnInit() {
     console.log('ready');
-    this.setMesage("welcome !");  
+    if(this.appService.Saludar){
+      this.setMesage("welcome !");  
+      this.appService.setNoSaludar();
+    }
     this.readStateFromStorage();
     this.setStateOnQuoteUpdated();
   }
