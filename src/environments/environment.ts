@@ -2,13 +2,12 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
- var base : string = 'http://localhost:3000'
  
 export const environment = {
   production: false,
   wsurl: 'ws://localhost:4000/',
-  deleteOrderUrl: base + '/deleteOrder/',
-  cancelOrderUrl: base + '/cancelOrder/'
+  deleteOrderUrl: 'http://localhost:3000' + '/deleteOrder/',
+  cancelOrderUrl: 'http://localhost:3000' + '/cancelOrder/'
 };
 
 /*
