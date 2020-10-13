@@ -66,6 +66,23 @@ export class OrdersPage implements OnInit {
     });
   }
 
+  public async handleCancel(orderId:string){
+    const confirmation = await this.presentAlertConfirm('Cancel Current Order?');
+    if (confirmation) this.trash(orderId);
+  }
+
+  public cancel(orderId:string){
+    this.Orders = this.Orders.filter(function( obj ) {
+      return obj.orderID !== orderId;
+    })
+    this.bitmexServ.saveToStoraje(BitmexOrder.name, this.Orders);
+    this.bitmexServ.deleteOrder(orderId).then((res) =>{
+      if(res.Ok !== true){
+        console.log(res.data.message);
+      }
+    });
+  }
+
   // #endregion
 
  
