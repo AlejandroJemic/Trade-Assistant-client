@@ -38,7 +38,7 @@ export class HomePage {
   ngOnInit() {
     console.log('ready');
     if(this.appService.Saludar){
-      this.setMesage("welcome !");  
+      this.setMessage("welcome !");  
       this.appService.setNoSaludar();
     }
     this.readStateFromStorage();
@@ -93,7 +93,7 @@ export class HomePage {
     }
   }
 
-  private setMesage(msg) {
+  private setMessage(msg) {
      this.mensaje = msg;
     this.showMesage = this.mensaje.length > 0;
     setTimeout(() => {

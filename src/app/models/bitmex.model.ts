@@ -55,6 +55,7 @@ export class BitmexOrder{
       currency: string;
       timestamp: Date;
       runingTime: string;
+      delta: number;
 
       constructor(orderID : string,
             ordType : string,

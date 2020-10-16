@@ -16,7 +16,7 @@ import { utils } from './services/utils';
 })
 export class AppComponent {
   navigate : any;
-  Orders: BitmexOrder[] = [] ;
+  Orders: BitmexOrder[] = [];
 
   constructor(
     private platform: Platform,
@@ -33,6 +33,7 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.readOrdersFromStorage();
+      this.setBidPriceOnQuoteUpdated();
       this.setOrdersOnOrdesUpdated();
     });
   }
@@ -61,6 +62,12 @@ export class AppComponent {
         url   : "/walet",
       },
     ]
+  }
+
+  private setBidPriceOnQuoteUpdated() {
+    this.bitmexServ.onQuoteUpdated().subscribe(data => {
+      this.bitmexServ.setBidPrice( data.bidPrice);
+    });
   }
 
   private setOrdersOnOrdesUpdated()

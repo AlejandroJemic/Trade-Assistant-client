@@ -20,6 +20,7 @@ export class BitmexService {
   
   public Orders: BitmexOrder[] = [];
   public OrdersUpdated: boolean = false;
+  bidPrice: any;
   constructor() { 
    try {
       this.socket = io(this.url); // ,{transports: ['websocket']});
@@ -38,6 +39,12 @@ export class BitmexService {
     this.Orders = Orders.sort((a, b) => (new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()   ? 1 : -1));;
     return this.Orders;
   }
+
+  public setBidPrice(bidPrice: number)
+  { this.bidPrice = bidPrice;}
+
+  public getBidPrice(){
+    return this.bidPrice;}
 
   public setOrders(Orders: BitmexOrder[]){
     this.Orders = Orders;

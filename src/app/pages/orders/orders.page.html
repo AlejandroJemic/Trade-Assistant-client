@@ -31,11 +31,12 @@
               <div>
                 <ion-label>{{order.side}} {{order.orderQty}} {{order.currency}} at {{order.avgPx}}{{order.avgPx}}{{order.stopPx}}</ion-label>
                 <ion-label size="4" class="time">{{order.runingTime}}</ion-label>
+                <ion-label size="4" class="time">{{order.delta}}</ion-label>
               </div>
             </ion-card-content>
             <ion-footer>
               <ion-row *ngIf="order.ordStatus !== 'Canceled'">
-                <ion-col >
+                <!-- <ion-col >
                   <button class="ion-float-right">
                     <ion-icon name="remove-circle" color="secondary"></ion-icon>
                   </button>
@@ -47,15 +48,15 @@
                   <button>
                     <ion-icon name="add-circle" color="secondary"></ion-icon>
                   </button>
-                </ion-col>
+                </ion-col> -->
 
                 <ion-col center text-center>
-                  <button>
+                  <button class="ion-float-left">
                     <ion-icon name="checkmark-circle" color="success"></ion-icon>
                   </button>
                 </ion-col>
                 <ion-col center text-center>
-                  <button>
+                  <button class="ion-float-right">
                     <ion-icon name="close-circle" color="danger" (click)="handleCancel(order.orderID)"></ion-icon>
                   </button>
                 </ion-col>

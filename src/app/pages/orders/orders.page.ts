@@ -30,7 +30,7 @@ export class OrdersPage implements OnInit {
     setInterval( () => {
       if(this.bitmexServ.OrdersUpdated){
         var orders =  this.bitmexServ.getOrders();
-        if (typeof orders !== "undefined" && orders !== null){
+          if (typeof orders !== "undefined" && orders !== null){
           this.Orders = orders;
         }
       }
@@ -40,11 +40,14 @@ export class OrdersPage implements OnInit {
   private updateOrdersRuningTimes(){
     setInterval( () => {
       this.Orders.forEach((order, index) => {
+        var orderPrice = order.price + order.stopPx + order.avgPx;
+        order.delta  =  this.bitmexServ.getBidPrice() - orderPrice;
         order.runingTime = utils.elapsedTime(new Date(), new Date(order.timestamp));
       });
       this.bitmexServ.setOrders(this.Orders);
       this.Orders = this.bitmexServ.getOrdersSorted();
-    }, 60000);
+
+    }, 5000);
   }
 
   // #region Actions Handlers
