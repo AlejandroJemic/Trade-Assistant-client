@@ -68,7 +68,7 @@ export class OrdersPage implements OnInit {
 
   public async handleCancel(orderId:string){
     const confirmation = await this.presentAlertConfirm('Cancel Current Order?');
-    if (confirmation) this.trash(orderId);
+    if (confirmation) this.cancel(orderId);
   }
 
   public cancel(orderId:string){
@@ -76,7 +76,7 @@ export class OrdersPage implements OnInit {
       return obj.orderID !== orderId;
     })
     this.bitmexServ.saveToStoraje(BitmexOrder.name, this.Orders);
-    this.bitmexServ.deleteOrder(orderId).then((res) =>{
+    this.bitmexServ.cancelOrder(orderId).then((res) =>{
       if(res.Ok !== true){
         console.log(res.data.message);
       }

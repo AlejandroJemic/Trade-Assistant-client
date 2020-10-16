@@ -52,7 +52,7 @@ export class BitmexService {
   }
 
   public async cancelOrder(orderID: string) { 
-    return await fetch(environment.deleteOrderUrl +  orderID)
+    return await fetch(environment.cancelOrderUrl +  orderID)
           .then(res => res.json())
           .then(data => {return data});
     }
