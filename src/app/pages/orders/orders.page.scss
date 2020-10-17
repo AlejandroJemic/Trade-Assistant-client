@@ -63,13 +63,12 @@
 
   ion-card-content{
     // border: solid 2px #3a3ec5;  
-    text-align: center; 
+    text-align: left; 
     // vertical-align: middle;
-    padding-top: 12px !Important;
-    height: 75px;
+    padding-top: 6px !Important;
+    height: 100px;
     color: #3a3ec5; 
-    line-height: 22px;
-    font-size: 22px;
+    font-size:16px;
     .time {
       font-size: 14px;
       color: #3a3ec5;
@@ -78,14 +77,21 @@
       border-color: rgba(0, 106, 255, 0.972);
       --border-radius: 10px; border-radius: 10px;
       position: relative;
-      top: 10px;
-      display: inline-flex;
-      justify-content: center;
+      top: 0px;
+      display: inline-flex; justify-content: center;
       line-height: 22px;
       height: 25px !important;
       margin: 5px;
       width: 110px;
     }
+    ion-input{font-size: 16px; border: 1px grey solid; margin: 1px; min-width: 60px; padding: 1px;}
+    ion-label{font-size: 16px; margin: 1px;}
+    ion-grid{margin: 0px; padding: 0px;}
+    ion-row{margin: 0px; padding: 0px;}
+    ion-col{margin: auto; padding: 0px; text-align: center; }
+    button{
+      position: relative ; top: 1px;
+      font-size: 26px; margin: 0px; padding: 0px; width: 30px; height: 30px; text-align: center; vertical-align: middle;}
   }
 
 

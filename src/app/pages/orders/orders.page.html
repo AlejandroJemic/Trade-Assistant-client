@@ -28,28 +28,45 @@
             </ion-card-title>
             </ion-card-header>
             <ion-card-content >
-              <div>
-                <ion-label>{{order.side}} {{order.orderQty}} {{order.currency}} at {{order.avgPx}}{{order.avgPx}}{{order.stopPx}}</ion-label>
-                <ion-label size="4" class="time">{{order.runingTime}}</ion-label>
-                <ion-label size="4" class="time">{{order.delta}}</ion-label>
-              </div>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="2"><ion-label>{{order.side}}</ion-label></ion-col>
+                  <ion-col size="2">
+                    <button class="ion-float-right">
+                      <ion-icon name="remove-circle" color="secondary"></ion-icon>
+                    </button>
+                  </ion-col>
+                  <ion-col size="4"><ion-input text-center type="number" step="5"> {{order.orderQty}} </ion-input></ion-col>
+                  <ion-col size="2">
+                    <button class="ion-float-left">
+                      <ion-icon name="add-circle" color="secondary"></ion-icon>
+                    </button>
+                  </ion-col> 
+                  <ion-col size="2"><ion-label>{{order.currency}} </ion-label></ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="2"><ion-label>at</ion-label></ion-col>
+                  <ion-col size="2">
+                    <button class="ion-float-right">
+                      <ion-icon name="remove-circle" color="secondary"></ion-icon>
+                    </button>
+                  </ion-col>
+                  <ion-col size="4"> <ion-input text-center type="number" step="5">{{order.avgPx}}{{order.avgPx}}{{order.stopPx}}</ion-input></ion-col> 
+                  <ion-col size="2">
+                    <button class="ion-float-left">
+                      <ion-icon name="add-circle" color="secondary"></ion-icon>
+                    </button>
+                  </ion-col> 
+                  <ion-col size="2"></ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="6"><ion-label  class="time">{{order.runingTime}}</ion-label></ion-col>
+                  <ion-col size="6"><ion-label  class="time">{{order.delta}}</ion-label></ion-col>
+                </ion-row>
+              </ion-grid>
             </ion-card-content>
             <ion-footer>
               <ion-row *ngIf="order.ordStatus !== 'Canceled'">
-                <!-- <ion-col >
-                  <button class="ion-float-right">
-                    <ion-icon name="remove-circle" color="secondary"></ion-icon>
-                  </button>
-                </ion-col>
-                <ion-col center text-center style="min-width: 100px;">
-                  <ion-input type="number" step="5" maxlength="6"></ion-input>
-                </ion-col>
-                <ion-col center text-center>
-                  <button>
-                    <ion-icon name="add-circle" color="secondary"></ion-icon>
-                  </button>
-                </ion-col> -->
-
                 <ion-col center text-center>
                   <button class="ion-float-left">
                     <ion-icon name="checkmark-circle" color="success"></ion-icon>
