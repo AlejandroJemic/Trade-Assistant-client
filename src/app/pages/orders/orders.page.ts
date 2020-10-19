@@ -70,8 +70,18 @@ export class OrdersPage implements OnInit {
   }
 
   public async handleCancel(orderId:string){
-    const confirmation = await this.presentAlertConfirm('Cancel Current Order?');
-    if (confirmation) this.cancel(orderId);
+    var modifedsOrders = this.bitmexServ.getModifedsOrders();
+
+    if(modifedsOrders.some((order) =>{ order.orderID === orderId}))
+    {
+      const confirmation = await this.presentAlertConfirm('Discard order modifications?');
+      if (confirmation) this.bitmexServ.removeModifedOrders(orderId);
+    }
+    else
+    {
+      const confirmation = await this.presentAlertConfirm('Cancel Current Order?');
+      if (confirmation) this.cancel(orderId);
+    }
   }
 
   public cancel(orderId:string){
@@ -88,6 +98,22 @@ export class OrdersPage implements OnInit {
 
   // #endregion
 
+  public handleRemovePrice(orderID:string){
+
+  }
+
+  public handleAddPrice(orderID:string){
+
+  }
+
+  public handleRemoveQty(orderID:string){
+
+  }
+
+  public handleAddQty(orderID:string){
+
+  }
+ 
  
   async presentAlertConfirm(msg: string) {
     return new Promise(async (resolve) => {

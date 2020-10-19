@@ -20,6 +20,9 @@ export class BitmexService {
   
   public Orders: BitmexOrder[] = [];
   public OrdersUpdated: boolean = false;
+
+  public ModifedsOrders: BitmexOrder[] = [];
+
   bidPrice: any;
   constructor() { 
    try {
@@ -28,6 +31,14 @@ export class BitmexService {
      
    }
   }
+
+
+
+  public setBidPrice(bidPrice: number)
+  { this.bidPrice = bidPrice;}
+
+  public getBidPrice(){
+    return this.bidPrice;}
 
   public getOrders(){
     var Orders= this.readFromStorage(BitmexOrder.name);
@@ -39,12 +50,6 @@ export class BitmexService {
     this.Orders = Orders.sort((a, b) => (new Date(a.timestamp).getTime() < new Date(b.timestamp).getTime()   ? 1 : -1));;
     return this.Orders;
   }
-
-  public setBidPrice(bidPrice: number)
-  { this.bidPrice = bidPrice;}
-
-  public getBidPrice(){
-    return this.bidPrice;}
 
   public setOrders(Orders: BitmexOrder[]){
     this.Orders = Orders;
@@ -63,7 +68,30 @@ export class BitmexService {
           .then(res => res.json())
           .then(data => {return data});
     }
+
+    public getModifedsOrders(){
+      var ModifedsOrders= this.readFromStorage('Modifed' + BitmexOrder.name);
+      this.ModifedsOrders = ModifedsOrders;
+      return this.ModifedsOrders;
+    }
+
+    public addModifedOrders(ToMidifyOrder: BitmexOrder){
+      this.getModifedsOrders();
+      var  aux:  BitmexOrder[] = [];
+      aux = this.ModifedsOrders.filter((order) =>{ order.orderID !== ToMidifyOrder.orderID})
+      aux.push(ToMidifyOrder);
+      this.ModifedsOrders = aux;
+      this.saveToStoraje( 'Modifed' + BitmexOrder.name, this.ModifedsOrders);
+    }
   
+    public removeModifedOrders(orderId: string){
+      this.getModifedsOrders();
+      var  aux:  BitmexOrder[] = [];
+      aux = this.ModifedsOrders.filter((order) =>{ order.orderID !== orderId})
+      this.ModifedsOrders = aux;
+      this.saveToStoraje( 'Modifed' + BitmexOrder.name, this.ModifedsOrders);
+    }
+
   /**
    * enviar mensajes al servidor ws
    * @param {string} command accion
